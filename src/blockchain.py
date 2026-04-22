@@ -16,8 +16,14 @@ class BlockChainClient:
         this function should create a transaction (you can do this in plaintext for now)
         and append it to your mempool and also 'transmit' it to everyone elses mempool.
         '''
-
-        pass
+        # Create Transaction w/ (sender, reciever, points given)
+        transaction = (fromAdd, toAdd, amt)
+        # Append Transaction -> mempool
+        if transaction not in self.mempool:
+            self.mempool.append(transaction)
+            for i in range(len(self.peers)):
+                # Transmit Transaction
+                BlockChainClient(f"Node{i}").mempool.append(transaction)
 
     def purgeMempool(self, block):
         '''
