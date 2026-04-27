@@ -6,8 +6,8 @@ def main():
     nodes = [BlockChainClient(f"Node{i}") for i in range(4)]
     for node in nodes:
         node.peers = [p for p in nodes if p != node]
-    
-    while True:
+    n = 0
+    while n < 20:
         for activeNode in nodes:
             action = random.choice(["send", "mine", "idle"])
             
@@ -22,6 +22,6 @@ def main():
                 
             elif action == "idle":
                 print(f"{activeNode.name} is idling...")
-                
-        print("--- End of Cycle ---")
+        n += 1        
+        print(f"--- End of Cycle: {n} ---")
         time.sleep(2)
