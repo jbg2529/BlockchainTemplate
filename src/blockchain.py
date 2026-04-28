@@ -26,13 +26,10 @@ class BlockChainClient:
                 BlockChainClient(f"Node{i}").mempool.append(transaction)
 
     def purgeMempool(self, block):
-        '''
-        You may not need this, but once a block has been mined, you should remove all transactions
-        in the block from the mempool.
-        '''
-        for transaction in block.transactions:
-            if transaction in self.mempool:
-                self.mempool.remove(transaction)
+    block_txns = set(block.transactions)
+        self.mempool = [txn for txn in self.mempool if txn not in block_txns]
+
+        pass
 
     def recieveBlock(self, block: Block):
         '''
