@@ -18,15 +18,12 @@ class BlockChainClient:
         '''
         # Create Transaction w/ (sender, reciever, points given)
         transaction = (fromAdd, toAdd, amt)
-
         # Append Transaction -> mempool
         if transaction not in self.mempool:
             self.mempool.append(transaction)
-
-        # Transmit Transaction
-        for peer in self.peers:
-            if transaction not in peer.mempool:
-                peer.mempool.append(transaction)
+            for i in range(len(self.peers)):
+                # Transmit Transaction
+                BlockChainClient(f"Node{i}").mempool.append(transaction)
 
     def purgeMempool(self, block):
         '''
