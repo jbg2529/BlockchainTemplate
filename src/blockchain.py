@@ -34,24 +34,11 @@ class BlockChainClient:
         The goal here is to verify that the block that this node recieved adheres to 
         the rules of the blockchain (i.e correctly calcukated nonce, right reward, etc.)
         '''
-        if block.previousHash != self.chain[-1].hash:
-            return
+        block_previous_hash = self.chain[-1].hash
+        if block.previousHash == block_previous_hash:
+            self.chain.append(block)
+            self.purgeMempool(block)
 
-        if block.calculateHash() != block.hash:
-            return
-
-        if not block.hash.startswith("0" * difficulty):
-            return
-
-        if len(block.transactions) != 11:
-            return
-
-        rewardTxn = block.transactions[-1]
-        if rewardTxn[0] != "SYSTEM" or rewardTxn[2] != reward:
-            return
-
-        self.chain.append(block)
-        self.purgeMempool(block)
 
     def mine(self):
         if len(self.mempool) >= 10:
