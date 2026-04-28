@@ -29,8 +29,6 @@ class BlockChainClient:
     block_txns = set(block.transactions)
         self.mempool = [txn for txn in self.mempool if txn not in block_txns]
 
-        pass
-
     def recieveBlock(self, block: Block):
         '''
         The goal here is to verify that the block that this node recieved adheres to 
